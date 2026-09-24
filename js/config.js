@@ -33,33 +33,14 @@ let footerDiv =
     '<p>This story is based on the <a href="https://www.instagram.com/p/Daf0HKhMUOo/">The Same-ification of NYC chart</a> posted by <a href="http://web.mta.info/developers/turnstile.html">Infatuation NYC</a> as part of their <a href="https://www.theinfatuation.com/new-york/features/nyc-restaurant-trends-q2-2026">Q2 2026 food trends article.</a></p>' +
     '<p><a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> | <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a> | <a href="https://brown.columbia.edu">The Brown Institute for Media Innovation</a></p>';
 
-let divChapter1 =
-    "<h3>A MELTING POT</h3>" +
-    '<img src="images/melting_pot.jpg">' +
-    '<p class="imageCredit"><a href="https://archive.org/details/nby_625235">"The Mortar of Assimilation - And the One Element That Won\'t Mix"</a></p>' +
-    "<p>All around the city subway ridership plummeted during the first two weeks of the Covid-19 outbreak. On average, stations saw a decrease of more than 50% in entries and exits between March 6th and March 20th, 2020. But as this map shows, the drop in ridership did not happen uniformly throughout the city.</p>";
-
-let divChapter2 =
-    "<h3>YET ANOTHER LOCATION OF [INSERT CHAIN]</h3>" +
-    '<img src="images/infat_chart.png">' +
-    '<p class="imageCredit"><a href="hhttps://www.instagram.com/p/Daf0HKhMUOo/">Infatuation NYC</a></p>' +
-    "<p>Income inequality certainly played a role in the uneven distribution of subway usage. By overlaying median household income and change in subway entries it becomes clear that those stations with less change are located in low-income areas, specially in the Bronx and outer Queens and Brooklyn.</p>";
-
-let divChapter3 =
-    "<h3>WHERE DO THESE CHAINS SET UP SHOP?</h3>" +
-    '<img src="images/infat_chart.png">' +
-    '<p class="imageCredit"><a href="https://www.nytimes.com/2020/04/09/nyregion/coronavirus-queens-corona-jackson-heights-elmhurst.html">The New York Times</a></p>' +
-    "<p>Elmhurst Hospital Center has been identified as one of the hospitals most overwhelmed by the number of patients with COVID-19 it has received. Located in a low-middle-income area of the city, with a median household income of around $50,000, the hospital serves one of the most diverse and immigrant dense areas of the city. The three subway stations around the hospital have all seen relatively small change in their usage compare to the rest of the city.</p>";
-
 var config = {
     // style: 'mapbox://styles/mapbox/streets-v12',
+    // mapbox://styles/mapbox/standard
     // leave commented to use Mapbox Standard Style
 
     style: "mapbox://styles/ctrac/cmuam725600dd01s52xsu0mwq",
 
-    //mapbox://styles/ctrac/cmuam725600dd01s52xsu0mwq
-    //mapbox://styles/mapbox/standard
-    
+
     //accessToken: 'YOUR_MAPBOX_ACCESS_TOKEN',
     showMarkers: true,
     markerColor: '#3FB1CE',
