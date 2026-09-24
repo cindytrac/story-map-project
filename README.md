@@ -4,19 +4,18 @@ This narrative project is based off of Infatuation's chart of the same name that
 
 ## Highlights and Content Overview
 
-The story I wanted to explore was to see if --- was more than just a feeling. What does the data say about neighborhoods that have chains like Blank Street or Wonder? What does that say about their 
+I wanted to explore the information presented in Infatuation's chart through data. 
 
-The --- features slides on:
+
+The storymap features slides on:
 
 * Overview
 * Restaurants in NYC
-* Case Study: Blank Street
+* Case Study: ---
 * What Neighborhoods Do They Target?
 * The Neighborhoods
-    the markers
-An in-depth paragraph about your project and overview of use.
 * What Does This Mean
-* 
+*
 
 ## Data Sources
 * 
@@ -26,7 +25,7 @@ An in-depth paragraph about your project and overview of use.
 * Data Cleaning
 
 * Information on Whether Restaurant is PE-Backed
-Through a quick search, you'll find that most datasets that 
+Through a quick search, you'll find that most datasets on private-equity restaurants are behind a paywall. 
 More extensive investigative work would have to be done in order to separate restaurants based on whether or not they are PE-backed (i.e. https://github.com/lilliansyme98-beep/private-equity-in-nyc). Or you can 
 
 ## Extensions

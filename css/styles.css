@@ -60,18 +60,18 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     font-family: 'Merriweather', serif;
-    text-align: left;
-    margin: auto;
-    max-width: 600px;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 1200px;
     
 }
 #header h2 {
     font-weight: 700;
     /* text-transform: uppercase; */
     font-family: 'Merriweather', serif;
-    text-align: left;
+    text-align:  center;
     margin: auto;
-    max-width: 600px;
+    max-width: 1200px;
 }
 #header h4 {
     font-family: 'Roboto Condensed', sans-serif;
