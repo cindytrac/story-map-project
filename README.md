@@ -1,1 +1,50 @@
-Add a readme for your story map here. Include content overview, data citations, and any relevant technical details.
+# The Sameification of NYC 
+
+This narrative project is based off of Infatuation's chart of the same name that was released in August 2026. 
+
+## Highlights and Content Overview
+
+The story I wanted to explore was to see if --- was more than just a feeling. What does the data say about neighborhoods that have chains like Blank Street or Wonder? What does that say about their 
+
+The --- features slides on:
+
+* Overview
+* Restaurants in NYC
+* Case Study: Blank Street
+* What Neighborhoods Do They Target?
+* The Neighborhoods
+    the markers
+An in-depth paragraph about your project and overview of use.
+* What Does This Mean
+* 
+
+## Data Sources
+* 
+
+
+## Limitations 
+* Data Cleaning
+
+* Information on Whether Restaurant is PE-Backed
+Through a quick search, you'll find that most datasets that 
+More extensive investigative work would have to be done in order to separate restaurants based on whether or not they are PE-backed (i.e. https://github.com/lilliansyme98-beep/private-equity-in-nyc). Or you can 
+
+## Extensions
+* Expand which metrics we are looking at at a neighborhood level. 
+* Compare 
+
+
+
+## Version History
+
+* 0.1
+    * Initial Release
+
+## Acknowledgments
+
+Inspiration, code snippets, etc.
+* [awesome-readme](https://github.com/matiassingers/awesome-readme)
+* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* [dbader](https://github.com/dbader/readme-template)
+* [zenorocha](https://gist.github.com/zenorocha/4526327)
+* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)

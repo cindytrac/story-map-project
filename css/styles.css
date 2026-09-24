@@ -2,6 +2,25 @@ body {
     margin: 0;
     padding: 0;
 }
+#header .intro-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#header .intro-copy {
+  flex: 1 1 60%;
+}
+
+#main-img {
+  flex: 0 0 45=0%;
+  width: 40%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
 #map {
   top: 0;
   height: 100vh;
@@ -15,9 +34,12 @@ body {
   position: relative;
   z-index: 5;
   padding: 2vh 0vh 5vh 0vh;
+  background-color: #394053;
+  text-align: left;
 }
+
 #features {
-  padding-top: 80vh;
+  padding-top: 10vh;
   padding-bottom: 10vh;
 }
 @media (max-width: 750px) {
@@ -37,6 +59,15 @@ body {
 #header h1 {
     font-weight: 700;
     text-transform: uppercase;
+    font-family: 'Merriweather', serif;
+    text-align: left;
+    margin: auto;
+    max-width: 600px;
+    
+}
+#header h2 {
+    font-weight: 700;
+    /* text-transform: uppercase; */
     font-family: 'Merriweather', serif;
     text-align: left;
     margin: auto;
@@ -139,6 +170,18 @@ a, a:hover, a:visited {
     margin: 0 auto;
   }
 }
+.chapter img {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin: 0 auto 1rem auto;
+}
+/* .image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+} */
 /* Fix issue on mobile browser where scroll breaks  */
 .mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan, 
 .mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan .mapboxgl-canvas {

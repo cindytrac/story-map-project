@@ -105,9 +105,13 @@ config.chapters.forEach((record, idx) => {
   // Sets the id for the vignette and adds the step css attribute
   container.setAttribute("id", record.id);
   container.classList.add("step");
- 
- 
+  // only use chapterDiv if it exists
+  if (record.chapterDiv) {
+    chapter.innerHTML = record.chapterDiv;
+  }
 
+  chapter.innerHTML = record.chapterDiv || '';
+  
   if (record.title) {
     var title = document.createElement('h3');
     title.innerText = record.title;
@@ -125,11 +129,11 @@ config.chapters.forEach((record, idx) => {
     story.innerHTML = record.description;
     chapter.appendChild(story);
   }
-  
+
 
   container.setAttribute('id', record.id);
 
-    // If the chapter is the first one, set it to active
+  // If the chapter is the first one, set it to active
   container.classList.add('step');
   if (idx === 0) {
     container.classList.add('active');
@@ -242,6 +246,7 @@ map.on("load", function () {
       }
     });
   };
+
 
   // setup the instance, pass callback functions
   scroller
