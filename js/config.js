@@ -292,20 +292,20 @@ var config = {
             rotateAnimation: false,
             callback: '',
             onChapterEnter: [
-                {
+                  {
                     layer: 'dohmh-new-york-city-restaurant-inspection-results-20260917',
                     opacity: 0.9,
-                    duration: 5000
+                    duration: 5000,
                 },
                 {
                     layer: 'neighborhoods',
-                    opacity: 0.75,
+                    opacity: 0.1,
                     duration: 5000
                 },
                 {
                     layer: 'nyc',
                     opacity: 0,
-                    duration: 500
+                    duration: 5000
                 }
             ],
             onChapterExit: []

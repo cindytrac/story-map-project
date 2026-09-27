@@ -398,7 +398,7 @@ var scroller = scrollama();
 // add clicking on 
 map.on("load", function () {
   map.on('click', 'neighborhoods', (event) => {
-    const activeRentChapter = ['median_rent', 'third-identifier'].some((id) =>
+    const activeRentChapter = ['median_rent', 'third-identifier', 'last-chapter'].some((id) =>
       document.getElementById(id)?.classList.contains('active')
     );
     if (!activeRentChapter) return;
@@ -443,7 +443,7 @@ map.on("load", function () {
   });
 
   map.on('mouseenter', 'neighborhoods', () => {
-    const rentChapterActive = ['median_rent', 'third-identifier'].some((id) =>
+    const rentChapterActive = ['median_rent', 'third-identifier', 'last-chapter'].some((id) =>
       document.getElementById(id)?.classList.contains('active')
     );
     if (rentChapterActive) {
