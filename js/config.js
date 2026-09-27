@@ -7,15 +7,6 @@ let subtitleDiv = " \n";
 
 let bylineDiv = '';
 
-// let descriptionDiv =
-//     '<p>In August 2026, Infatuation, a NYC-based publication that focuses on restaurant recommendations and guides, posted a chart titled <a href="https://www.instagram.com/p/Daf0HKhMUOo/">"The Sameification of NYC."</a> The chart plotted out which food chains (think Blank Street, 7th Street Burger) were present in which neighborhoods.   </p>' +
-//     '<p>This sparked conversation over genetrification and the death of small businesses as private equity-backed business take up more and more space.</p>' +
-//     "<p> </p>" +
-//     '<img src="images/infat_chart.png" id="main-img">' +
-//     "<p>It was fascinating to see such a response to this chart. The comments were filled with a spectrum of opinions from folks assenting that private-equity businesses (like Wonder) are taking over neighborhoods to folks defending NYC-founded chains (like 7th Street Burger).</p>" +
-//     "<p>This story map looks at the places behind that conversation and asks what restaurant patterns can and can\’ttell us about neighborhood change.</p>" +
-//     '<p style="text-align:center">scroll to continue<br>▼</p>';
-
 let descriptionDiv =
   '<div class="intro-layout">' +
     '<div class="intro-copy">' +
@@ -42,7 +33,7 @@ var config = {
     // leave commented to use Mapbox Standard Style
 
     style: "mapbox://styles/ctrac/cmuam725600dd01s52xsu0mwq",
-
+    // accessToken only works on specified site URLs
     accessToken: "pk.eyJ1IjoiY3RyYWMiLCJhIjoiY211YmwyNTNmMDM2ejJ4cHZoeHNoMGhiZiJ9.YCUukMS6kMZWXslJJRfktA",
     //accessToken: 'YOUR_MAPBOX_ACCESS_TOKEN',
     showMarkers: true,
