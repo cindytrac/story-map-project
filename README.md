@@ -51,4 +51,3 @@ Then open <http://localhost:8000> in a browser. Stop the server with `Ctrl+C`.
 - [NYC median rent GeoJSON](https://github.com/soniacq/urbanTrace/blob/main/data/geojson/NYC_median_rent.geojson) by [Sonia C. Q.](https://github.com/soniacq), used for neighborhood rent estimates.
 - [Mapbox](https://www.mapbox.com/about/maps/) provides the map platform and custom style.
 - [OpenStreetMap](https://www.openstreetmap.org/copyright) is credited through the map style.
--
