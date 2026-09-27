@@ -6,6 +6,9 @@ This narrative project is based off of Infatuation's chart of the same name that
 
 I wanted to explore the information presented in Infatuation's chart through data. 
 
+My target audience would be casual readers of online publications like Infatuation who are curious 
+This storymap enables readers to look further at the data behind --
+I hope to also highlight how this data is almost always public data and is available for the everyday person to explore. 
 
 The storymap features slides on:
 
@@ -17,6 +20,7 @@ The storymap features slides on:
 * What Does This Mean
 *
 
+Users can explore the current streetscape of NYC. 
 ## Data Sources
 * 
 

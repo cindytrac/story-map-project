@@ -118,16 +118,16 @@ config.chapters.forEach((record, idx) => {
     chapter.appendChild(title);
   }
 
-  if (record.image) {
-    var image = new Image();
-    image.src = record.image;
-    chapter.appendChild(image);
-  }
-
   if (record.description) {
     var story = document.createElement('p');
     story.innerHTML = record.description;
     chapter.appendChild(story);
+  }
+
+  if (record.image) {
+    var image = new Image();
+    image.src = record.image;
+    chapter.appendChild(image);
   }
 
 
@@ -193,19 +193,34 @@ if (smallMedia) {
   startingZoom = config.chapters[0].location.zoom;
 }
 
+const initialView = {
+  center: config.chapters[0].location.center,
+  zoom: config.chapters[0].location.zoom,
+  bearing: config.chapters[0].location.bearing,
+  pitch: config.chapters[0].location.pitch,
+};
+
 var map = new mapboxgl.Map({
   container: 'map',
   style: config.style,
-  center: config.chapters[0].location.center,
-  zoom: config.chapters[0].location.zoom,
+  center: initialView.center,
+  zoom: initialView.zoom,
   //zoom: startingZoom,
-  bearing: config.chapters[0].location.bearing,
-  pitch: config.chapters[0].location.pitch,
-  interactive: false,
+  bearing: initialView.bearing,
+  pitch: initialView.pitch,
+  interactive: true,
   projection: config.projection,
   transformRequest: transformRequest
 
 });
+
+map.dragPan.enable();
+map.scrollZoom.disable();
+map.boxZoom.enable();
+map.dragRotate.disable();
+map.keyboard.disable();
+map.doubleClickZoom.disable();
+map.touchZoomRotate.disable();
 
 // Create a inset map if enabled in config.js
 if (config.inset) {
@@ -220,11 +235,226 @@ if (config.showMarkers) {
   marker.setLngLat(config.chapters[0].location.center).addTo(map);
 }
 
+const resetViewButton = document.createElement('button');
+resetViewButton.className = 'reset-view-button map-tools-hidden';
+resetViewButton.type = 'button';
+resetViewButton.textContent = 'Reset view';
+resetViewButton.setAttribute('aria-label', 'Reset map to its initial view');
+resetViewButton.title = 'Reset map to its initial view';
+resetViewButton.addEventListener('click', () => {
+  map.flyTo({ ...initialView, essential: true });
+  if (config.showMarkers) {
+    marker.setLngLat(initialView.center);
+  }
+});
+document.body.appendChild(resetViewButton);
+
+const zoomControls = document.createElement('div');
+zoomControls.className = 'zoom-controls map-tools-hidden';
+
+const zoomInButton = document.createElement('button');
+zoomInButton.type = 'button';
+zoomInButton.textContent = '+';
+zoomInButton.setAttribute('aria-label', 'Zoom in');
+zoomInButton.title = 'Zoom in';
+zoomInButton.addEventListener('click', (event) => {
+  event.stopPropagation();
+  map.zoomIn({ duration: 300 });
+});
+
+const zoomOutButton = document.createElement('button');
+zoomOutButton.type = 'button';
+zoomOutButton.textContent = '−';
+zoomOutButton.setAttribute('aria-label', 'Zoom out');
+zoomOutButton.title = 'Zoom out';
+zoomOutButton.addEventListener('click', (event) => {
+  event.stopPropagation();
+  map.zoomOut({ duration: 300 });
+});
+
+zoomControls.append(zoomInButton, zoomOutButton);
+document.body.appendChild(zoomControls);
+
+// set ids for restaurant filters
+const restaurantLayerId = 'dohmh-new-york-city-restaurant-inspection-results-20260917';
+const restaurantMarkerLayerId = 'restaurant-search-markers';
+const restaurantSearchControl = document.createElement('div');
+restaurantSearchControl.className = 'restaurant-search-control map-tools-hidden';
+
+const rentChangeLegend = document.createElement('div');
+rentChangeLegend.className = 'rent-change-legend map-tools-hidden';
+const rentPriceLegendContent =
+  '<strong>Median Monthly Rent</strong>' +
+  '<span>2023 estimate, 2024 dollars</span>' +
+  '<div class="rent-price-ramp" aria-hidden="true"></div>' +
+  '<div class="rent-change-labels"><span>$1,100</span><span>$2,400</span><span>$3,600+</span></div>';
+const rentChangeLegendContent =
+  '<strong>Median Rent Change</strong>' +
+  '<span>2018 to 2023, monthly dollars</span>' +
+  '<div class="rent-change-ramp" aria-hidden="true"></div>' +
+  '<div class="rent-change-labels"><span>Decrease</span><span>No change</span><span>Increase</span></div>';
+rentChangeLegend.innerHTML = rentPriceLegendContent;
+document.body.appendChild(rentChangeLegend);
+
+const restaurantSearchLabel = document.createElement('label');
+restaurantSearchLabel.htmlFor = 'restaurant-search';
+restaurantSearchLabel.textContent = 'Filter Restaurants';
+
+const restaurantSearchRow = document.createElement('div');
+restaurantSearchRow.className = 'restaurant-search-row';
+
+const restaurantSearch = document.createElement('input');
+restaurantSearch.id = 'restaurant-search';
+restaurantSearch.type = 'search';
+restaurantSearch.placeholder = 'Search by restaurant name';
+restaurantSearch.autocomplete = 'off';
+restaurantSearch.disabled = true;
+
+const clearRestaurantSearch = document.createElement('button');
+clearRestaurantSearch.type = 'button';
+clearRestaurantSearch.textContent = 'Clear';
+clearRestaurantSearch.disabled = true;
+
+restaurantSearchRow.append(restaurantSearch, clearRestaurantSearch);
+restaurantSearchControl.append(restaurantSearchLabel, restaurantSearchRow);
+document.body.appendChild(restaurantSearchControl);
+
+const updateMapToolsVisibility = () => {
+  const firstChapter = document.getElementById(config.chapters[0].id);
+  const showControls = firstChapter &&
+    firstChapter.getBoundingClientRect().top < window.innerHeight * 0.6;
+
+  resetViewButton.classList.toggle('map-tools-hidden', !showControls);
+  zoomControls.classList.toggle('map-tools-hidden', !showControls);
+  restaurantSearchControl.classList.toggle('map-tools-hidden', !showControls);
+};
+
+window.addEventListener('scroll', updateMapToolsVisibility, { passive: true });
+window.addEventListener('resize', updateMapToolsVisibility);
+window.addEventListener('load', updateMapToolsVisibility);
+const introHeader = document.getElementById('header');
+if (introHeader && 'ResizeObserver' in window) {
+  new ResizeObserver(updateMapToolsVisibility).observe(introHeader);
+}
+updateMapToolsVisibility();
+
+const applyRestaurantSearch = (exactMatch = false) => {
+  if (!map.getLayer(restaurantLayerId)) return;
+
+  const searchTerm = restaurantSearch.value.trim().toLowerCase();
+  const restaurantName = ['downcase', ['to-string', ['get', 'DBA']]];
+  const filter = !searchTerm
+    ? null
+    : exactMatch
+      ? ['==', restaurantName, searchTerm]
+      : ['>=', ['index-of', searchTerm, restaurantName], 0];
+
+  map.setFilter(restaurantLayerId, filter);
+
+  if (map.getLayer(restaurantMarkerLayerId)) {
+    map.setFilter(restaurantMarkerLayerId, filter);
+    map.setLayoutProperty(
+      restaurantMarkerLayerId,
+      'visibility',
+      searchTerm ? 'visible' : 'none'
+    );
+  }
+};
+
+restaurantSearch.addEventListener('input', () => applyRestaurantSearch());
+clearRestaurantSearch.addEventListener('click', () => {
+  restaurantSearch.value = '';
+  applyRestaurantSearch();
+  restaurantSearch.focus();
+});
+map.once('load', () => {
+  const restaurantLayer = map.getLayer(restaurantLayerId);
+  if (restaurantLayer && !map.getLayer(restaurantMarkerLayerId)) {
+    map.addLayer({
+      id: restaurantMarkerLayerId,
+      type: 'circle',
+      source: restaurantLayer.source,
+      'source-layer': restaurantLayer['source-layer'],
+      layout: {
+        visibility: 'none',
+      },
+      paint: {
+        'circle-color': '#e96138',
+        'circle-radius': 6,
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-width': 1.5,
+      },
+    });
+  }
+
+  restaurantSearch.disabled = false;
+  clearRestaurantSearch.disabled = false;
+  applyRestaurantSearch();
+});
+
 // instantiate the scrollama
 var scroller = scrollama();
 
-
+// add clicking on 
 map.on("load", function () {
+  map.on('click', 'neighborhoods', (event) => {
+    const activeRentChapter = ['median_rent', 'third-identifier'].some((id) =>
+      document.getElementById(id)?.classList.contains('active')
+    );
+    if (!activeRentChapter) return;
+
+    const properties = event.features?.[0]?.properties;
+    if (!properties) return;
+
+    const areaName = properties.Official_SBA_name ||
+      properties['Sub-Borough Area'] || 'Unknown area';
+    const rent2018 = Number(properties['2018']);
+    const rent2023 = Number(properties['2023']);
+    const rentChange = rent2023 - rent2018;
+    const formatRent = (rent) => Number.isFinite(rent)
+      ? `$${Math.round(rent).toLocaleString('en-US')}`
+      : 'Not available';
+    const formatRentChange = (change) => Number.isFinite(change)
+      ? `${change > 0 ? '+' : change < 0 ? '−' : ''}$${Math.round(Math.abs(change)).toLocaleString('en-US')}`
+      : 'Not available';
+    const escapedAreaName = String(areaName).replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[character]);
+
+    const activeChapterId = config.chapters.find((chapter) =>
+      document.getElementById(chapter.id)?.classList.contains('active')
+    )?.id;
+    const popupContent = activeChapterId === 'median_rent'
+      ? `<strong>${escapedAreaName}</strong><br>` +
+        `2023 median rent: ${formatRent(rent2023)}`
+      : `<strong>${escapedAreaName}</strong><br>` +
+        `2018 median gross rent: ${formatRent(rent2018)}<br>` +
+        `2023 median gross rent: ${formatRent(rent2023)}<br>` +
+        `Change (2023 minus 2018): ${formatRentChange(rentChange)}`;
+
+    new mapboxgl.Popup()
+      .setLngLat(event.lngLat)
+      .setHTML(popupContent)
+      .addTo(map);
+  });
+
+  map.on('mouseenter', 'neighborhoods', () => {
+    const rentChapterActive = ['median_rent', 'third-identifier'].some((id) =>
+      document.getElementById(id)?.classList.contains('active')
+    );
+    if (rentChapterActive) {
+      map.getCanvas().style.cursor = 'pointer';
+    }
+  });
+
+  map.on('mouseleave', 'neighborhoods', () => {
+    map.getCanvas().style.cursor = '';
+  });
+
   if (config.use3dTerrain) {
     map.addSource('mapbox-dem', {
       'type': 'raster-dem',
@@ -259,6 +489,57 @@ map.on("load", function () {
       var current_chapter = config.chapters.findIndex(chap => chap.id === response.element.id);
       var chapter = config.chapters[current_chapter];
 
+      const rentLegendChapters = [
+        'median_rent',
+        'median_rent_wonder',
+        'third-identifier',
+        'last-chapter',
+      ];
+      rentChangeLegend.classList.toggle(
+        'map-tools-hidden',
+        !rentLegendChapters.includes(chapter.id)
+      );
+
+      if (chapter.id === 'median_rent_wonder' || chapter.id === 'third-identifier') {
+        restaurantSearch.value = 'Wonder';
+        applyRestaurantSearch(true);
+      }
+
+      if (chapter.id === 'median_rent' && map.getLayer('neighborhoods')) {
+        map.setPaintProperty('neighborhoods', 'fill-color', [
+          'interpolate', ['linear'], ['to-number', ['get', '2023']],
+          1100, '#fff4cc',
+          1700, '#fdb863',
+          2400, '#e8753b',
+          3000, '#bd3b32',
+          3600, '#772b3a',
+        ]);
+        rentChangeLegend.innerHTML = rentPriceLegendContent;
+      }
+
+      if (chapter.id === 'third-identifier' && map.getLayer('neighborhoods')) {
+        const rentChange = [
+          '-',
+          ['coalesce', ['to-number', ['get', '2023']], 0],
+          ['coalesce', ['to-number', ['get', '2018']], 0],
+        ];
+        map.setPaintProperty('neighborhoods', 'fill-color', [
+          'interpolate', ['linear'], rentChange,
+          -1000, '#2166ac',
+          -500, '#92c5de',
+          0, '#f7f7f2',
+          500, '#f4a582',
+          1000, '#b2182b',
+        ]);
+        rentChangeLegend.innerHTML = rentChangeLegendContent;
+      }
+
+      if (current_chapter === 0) {
+        resetViewButton.classList.remove('map-tools-hidden');
+        zoomControls.classList.remove('map-tools-hidden');
+        restaurantSearchControl.classList.remove('map-tools-hidden');
+      }
+
       response.element.classList.add('active');
       map[chapter.mapAnimation || 'flyTo'](chapter.location);
 
@@ -291,6 +572,19 @@ map.on("load", function () {
     .onStepExit(response => {
       var chapter = config.chapters.find(chap => chap.id === response.element.id);
       response.element.classList.remove('active');
+      if (
+        chapter.id === 'third-identifier' ||
+        (chapter.id === 'median_rent_wonder' && response.direction === 'up')
+      ) {
+        restaurantSearch.value = '';
+        applyRestaurantSearch();
+      }
+      if (response.element.id === config.chapters[0].id && response.direction === 'up') {
+        resetViewButton.classList.add('map-tools-hidden');
+        zoomControls.classList.add('map-tools-hidden');
+        restaurantSearchControl.classList.add('map-tools-hidden');
+        rentChangeLegend.classList.add('map-tools-hidden');
+      }
       if (chapter.onChapterExit.length > 0) {
         chapter.onChapterExit.forEach(setLayerOpacity);
       }
