@@ -1,10 +1,10 @@
 # Of Bodegas and Big Chains
 
-An interactive story map exploring the conversation sparked by Infatuation's *The Sameification of NYC* chart. It uses restaurant locations and neighborhood rent estimates to help readers investigate what storefront patterns can reveal about New York City, and what they cannot establish on their own.
+An interactive story map exploring the conversation sparked by Infatuation's *The Sameification of NYC* chart. It uses restaurant locations and neighborhood rent estimates to help readers investigate what storefront patterns can reveal about New York City and what cannot be established on their own.
 
 ## Project Question
 
-Can public data help us examine claims about chain restaurants, changing storefronts, and neighborhood change? The map invites readers to inspect restaurant locations, compare them with neighborhood rent patterns, and ask further questions without treating geographic overlap as proof of cause and effect.
+Is there a relationship between where chains like Blank Street or Wonder open up and the neighborhood's rent prices? I want to explore what it means for the current state or trajectory of your neighborhood if a certain store opens up. This is also a data follow-up to the Infatuation article, acting as expansion data viz tool to the chart. 
 
 ## Story Slides
 
@@ -18,14 +18,16 @@ Can public data help us examine claims about chain restaurants, changing storefr
 ## Interacting With the Map
 
 - Scroll through the story cards to move between chapters.
-- Use the restaurant search control to filter by restaurant name. The Wonder and Wonder-neighborhood chapters apply an exact `DBA` match for `Wonder`.
-- Click and drag the map to pan. Use the `+` and `-` controls to zoom; scroll-wheel zoom is disabled.
+- Use the restaurant search control to filter by restaurant name. 
+- Click and drag the map to pan.
+- Use the `+` and `-` controls to zoom.
 - Click a neighborhood on the rent slides to see its name and rent information.
 - Use **Reset view** to return to the opening map camera position.
 
 ## Data and Interpretation
 
-The map is configured in `js/config.js` to use a custom Mapbox style. Its visible data layers include:
+The map is configured in `js/config.js`. 
+I used [PointsUnknown's tutorial](https://pointsunknown.nyc/web%20mapping/mapbox/2021/07/20/11A_MapboxStorytelling.html) as a starting point and configured my map in MapBox.
 
 - **Restaurant inspection locations:** a Mapbox style layer named `dohmh-new-york-city-restaurant-inspection-results-20260917`, with business names in the `DBA` property. The source dataset is NYC DOHMH's [NYC Restaurant Inspection Results](https://data.cityofnewyork.us/Health/DOHMH-NYC-Restaurant-Inspection/c9jv-y9ru/about_data).
 - **Neighborhood rent estimates:** the `neighborhoods` layer, with neighborhood names and median gross rent attributes for 2018 and 2023. The map labels these estimates as inflation-adjusted 2024 dollars. The source GeoJSON is Sonia C. Q.'s [NYC median rent dataset](https://github.com/soniacq/urbanTrace/blob/main/data/geojson/NYC_median_rent.geojson).
@@ -41,7 +43,8 @@ With Python installed, from the project root run:
 python3 -m http.server 8000
 ```
 
-Then open <http://localhost:8000> in a browser. Stop the server with `Ctrl+C`.
+Open <http://localhost:8000> in a browser. 
+Stop server with `Ctrl+C`.
 
 ## Sources and Credits
 
